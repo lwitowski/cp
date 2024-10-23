@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Investment Tracking Application
 
-## Getting Started
+This is a simple investment tracking application built using Next.js, Prisma, and TanStack Query (React Query). The application allows users to track their investments and calculate totals. It supports authentication and provides features like CSV export.
 
-First, run the development server:
+## Features
+1. Track investments (name, quantity, buy price, current price).
+2. Authentication using NextAuth.js.
+3. Real-time updates of aggregated investment data.
+4. Export investments to CSV.
+5. Persistent data with PostgreSQL using Prisma ORM.
+6. Allow users to edit the table inline (e.q. quantity)
+
+## Prerequisites
+Before setting up the application, ensure you have the following installed:
+
+- Node.js (version 16 or higher)
+- npm (version 7 or higher)
+- PostgreSQL (local or cloud instance)
+- Docker (optional, if using Docker to run the application)
+
+## Local Setup Instructions
+
+### 1. Install Dependencies
+
+Install the required dependencies using npm:
+
+```bash
+npm install
+```
+
+### 2. Set Up PostgreSQL Database
+Make sure you have PostgreSQL running on your local machine or a cloud service. You need to create a database for the project.
+
+Example (using psql CLI):
+```bash
+createdb investment_tracker
+```
+
+### 3. Configure Environment Variables
+Create a .env file in the root directory and add the following configuration. Replace <your_database_url> with your actual PostgreSQL connection string:
+
+```bash
+DATABASE_URL="postgresql://<username>:<password>@<host>:<port><dbname>schema=public"
+NEXTAUTH_SECRET="your-secret-key"
+NEXTAUTH_URL="http://localhost:3100"
+```
+### 4. Set Up Prisma
+Generate the Prisma client and run migrations to set up your database schema:
+
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+```
+
+### 5. Running the Application
+After setting up the environment, run the application locally:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Your application should now be running on http://localhost:3100.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 6. User Registration
+Users can create an account by visiting the sign-up page at /auth/signup. To create a new account:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Navigate to http://localhost:3100/auth/signup in your browser.
+Fill out the registration form with your email, password, and other necessary details.
+After submitting the form, you will be redirected to the login page where you can log in and start tracking your investments.
 
-## Learn More
+### 7. Using Docker (Optional)
+If you prefer to use Docker for running the application, follow these steps:
 
-To learn more about Next.js, take a look at the following resources:
+Build the Docker image:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+docker build -t investment-tracker .
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run the application with Docker:
 
-## Deploy on Vercel
+```bash
+docker run -p 3000:3000 investment-tracker
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 8. Access the Application
+Once the app is running, you can access it by navigating to http://localhost:3000 in your browser.
