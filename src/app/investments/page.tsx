@@ -4,7 +4,7 @@ import { FormEventHandler, useState } from 'react';
 import { useAddInvestment } from './mutations';
 import { useRouter } from 'next/navigation';
 
-export const NewInvestmentPage = () => {
+const InvestmentPage = () => {
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [buyPrice, setBuyPrice] = useState('');
@@ -26,10 +26,10 @@ export const NewInvestmentPage = () => {
   };
 
   return (
-    <form className="p-4 mx-auto max-w-2xl" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-8 row-start-2 items-center sm:items-start" onSubmit={handleSubmit}>
       <div className="space-y-12">
         <div className="pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">New investment</h2>
+          <h2 className="py-2 text-3xl font-semibold tracking-tight">New investment</h2>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
@@ -102,7 +102,7 @@ export const NewInvestmentPage = () => {
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <button
           type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Add investment
         </button>
@@ -111,4 +111,4 @@ export const NewInvestmentPage = () => {
   );
 }
 
-export default NewInvestmentPage;
+export default InvestmentPage;

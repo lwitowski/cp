@@ -42,7 +42,7 @@ Create a .env file in the root directory and add the following configuration. Re
 ```bash
 DATABASE_URL="postgresql://<username>:<password>@<host>:<port><dbname>schema=public"
 NEXTAUTH_SECRET="your-secret-key"
-NEXTAUTH_URL="http://localhost:3100"
+NEXTAUTH_URL="http://localhost:3000"
 ```
 ### 4. Set Up Prisma
 Generate the Prisma client and run migrations to set up your database schema:
@@ -59,12 +59,12 @@ After setting up the environment, run the application locally:
 npm run dev
 ```
 
-Your application should now be running on http://localhost:3100.
+Your application should now be running on http://localhost:3000.
 
 ### 6. User Registration
 Users can create an account by visiting the sign-up page at /auth/signup. To create a new account:
 
-Navigate to http://localhost:3100/auth/signup in your browser.
+Navigate to http://localhost:3000/auth/signup in your browser.
 Fill out the registration form with your email, password, and other necessary details.
 After submitting the form, you will be redirected to the login page where you can log in and start tracking your investments.
 

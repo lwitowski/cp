@@ -1,40 +1,24 @@
-FROM node:18-alpine AS base
-
-FROM base AS deps
-
-RUN apk add --no-cache libc6-compat
+FROM node:alpine AS builder
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json package-lock.json ./
 
-RUN npm update && npm install
-
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+RUN npm ci
 COPY . .
 
+RUN npx prisma generate
 RUN npm run build
+RUN npm prune --production
 
-FROM base AS runner
+FROM node:alpine
 WORKDIR /app
 
-ENV NODE_ENV production
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-USER nextjs
+COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 3000
 
-ENV PORT 3000
-
-CMD ["node", "server.js"]
+CMD ["npm", "run", "start"]

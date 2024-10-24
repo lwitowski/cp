@@ -1,22 +1,20 @@
 version: '3.8'
 
 services:
- # app:
- #   build:
- #     context: .
- #     dockerfile: Dockerfile
- #   container_name: cp-app
- #   ports:
- #     - '3000:3000'
- #   environment:
- #     DATABASE_URL: "postgresql://postgres:password@db:5432/cp"
- #   depends_on:
- #     - db
- #   volumes:
- #     - .:/app
- #     - /app/node_modules
- #     - /app/.next
- #   command: npm run start
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cp-app
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_URL: "postgresql://postgres:password@db:5432/cp"
+      NEXTAUTH_SECRET: "ZqkQ6rVbb+z4rvvjkQQY7O0O3Pot6pVXmL3gEeNmw0Y="
+      NEXTAUTH_URL: "http://localhost:3000"
+      NEXTAUTH_TRUST_HOST: "true"
+    depends_on:
+      - db
 
   db:
     image: postgres:13

@@ -29,6 +29,7 @@ export async function GET() {
       totalGainLoss,
     });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Failed to fetch data' }, {
       status: 500,
     });

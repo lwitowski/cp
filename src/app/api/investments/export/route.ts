@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { stringify } from 'csv-stringify/sync';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { auth } from '@/app/lib/auth';
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const session = await auth();
 
   if (!session?.user) {

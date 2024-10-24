@@ -1,58 +1,40 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTable } from './DataTable';
 import { Investment, useInvestments } from './queries';
-import { useUpdateInvestment } from './mutations';
+import { EditableCell } from './EditableCell';
 import Link from 'next/link';
+
+const columns: ColumnDef<Investment>[] = [
+  {
+    accessorKey: "name",
+    header: "Stock name",
+  },
+  {
+    accessorKey: "quantity",
+    header: "Quantity",
+    cell: ({ getValue, row: { original } }) => {
+      return (
+        <EditableCell
+          initialValue={getValue<string>()}
+          rowId={original.id}
+        />
+      );
+    },
+  },
+  {
+    accessorKey: "buyPrice",
+    header: "Buy price",
+  },
+  {
+    accessorKey: "currentPrice",
+    header: "Current price",
+  }
+];
 
 export const Investments = () => {
   const { data: investments = [] } = useInvestments();
-  const updateInvestment = useUpdateInvestment();
-
-  const columns: ColumnDef<Investment>[] = useMemo(() => [
-    {
-      accessorKey: "name",
-      header: "Stock name",
-    },
-    {
-      accessorKey: "quantity",
-      header: "Quantity",
-      cell: ({ getValue, row: { original } }) => {
-        const initialValue = getValue()
-        const [value, setValue] = useState(initialValue);
-
-        const onBlur = async () => {
-          if (initialValue === value) {
-            return;
-          }
-
-          updateInvestment.mutate({ id: original.id, quantity: parseInt(value as string) }); // todo: fix type, add validation?
-        }
-
-        useEffect(() => {
-          setValue(initialValue);
-        }, [initialValue]);
-
-        return (
-          <input
-            value={value as string}
-            onChange={event => setValue(event.target.value)}
-            onBlur={onBlur}
-          />
-        )
-      },
-    },
-    {
-      accessorKey: "buyPrice",
-      header: "Buy price",
-    },
-    {
-      accessorKey: "currentPrice",
-      header: "Current price",
-    }
-  ], []);
 
   const handleExport = async () => {
     const response = await fetch('/api/investments/export');

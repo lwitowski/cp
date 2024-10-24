@@ -6,6 +6,7 @@
     "dev": "next dev --port 3100",
     "build": "next build",
     "start": "next start",
+    "migrate": "npx prisma migrate dev --name init",
     "lint": "next lint",
     "seed": "ts-node prisma/seed.ts",
     "test": "jest"

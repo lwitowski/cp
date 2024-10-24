@@ -40,6 +40,7 @@ export const authOptions = {
       },
     }),
   ],
+  trustHost: true,
   session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
   callbacks: {
     async session({ session, token }) {
@@ -53,7 +54,7 @@ export const authOptions = {
       return session;
     },
 
-    async jwt({ token }: any) {
+    async jwt({ token }) {
       return token;
     },
   },

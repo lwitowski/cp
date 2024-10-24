@@ -3,29 +3,35 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from './actions';
+import { useState } from 'react';
 
-export const SignInPage = () => {
+const SignInPage = () => {
   const router = useRouter();
+  const [error, setError] = useState<string| undefined>();
 
   const handleSubmit = async (formData: FormData) => {
-    await signIn(formData);
+    const response = await signIn({
+      email: formData.get('email'),
+      password: formData.get('password')
+    });
+
+    if (response?.message) {
+      setError(response.message);
+    }
+
     router.push('/');
   };
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          alt="Code & Pepper"
-          src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-          className="mx-auto h-10 w-auto"
-        />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign in to your account
         </h2>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        {error && <div className="text-red-500">{error}</div>}
         <form action={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
