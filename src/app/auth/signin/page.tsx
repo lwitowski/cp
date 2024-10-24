@@ -11,8 +11,8 @@ const SignInPage = () => {
 
   const handleSubmit = async (formData: FormData) => {
     const response = await signIn({
-      email: formData.get('email'),
-      password: formData.get('password')
+      email: formData.get('email') as string,
+      password: formData.get('password') as string
     });
 
     if (response?.message) {
